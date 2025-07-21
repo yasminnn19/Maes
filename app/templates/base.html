@@ -1,133 +1,27 @@
-{% load static %}
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mães APLV - Comunidade e Receitas</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <!-- Seu CSS personalizado -->
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <title>{% block title %}Sistema de Receitas{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
     <header>
-        <div class="container">
-            <nav>
-                <div class="logo">
-                    <i class="fas fa-baby"></i>
-                    Mães APLV
-                </div>
-                <ul class="nav-links">
-                    <li><a href="{% url 'home' %}">Início</a></li>
-                    <li><a href="{% url 'lista_receitas' %}">Receitas</a></li>
-                    <li><a href="{% url 'forum' %}">Comunidade</a></li>
-                    {% if user.is_authenticated %}
-                        <li><a href="#" class="btn btn-outline">Meu Perfil</a></li>
-                        <li><a href="{% url 'logout' %}" class="btn btn-outline">Sair</a></li>
-                    {% else %}
-                        <li><a href="{% url 'login' %}" class="btn btn-outline">Login</a></li>
-                    {% endif %}
-                </ul>
-            </nav>
-        </div>
+        <h1>🍳 Sistema de Receitas</h1>
+        <nav>
+            <a href="{% url 'pagina_inicial' %}">Home</a> |
+            <a href="/admin/">Admin</a>
+        </nav>
     </header>
-    
-    <section class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <div class="hero-text">
-                    <h1>Juntas somos mais fortes contra a APLV</h1>
-                    <p>Encontre receitas seguras, compartilhe experiências e receba apoio de outras mães que enfrentam os mesmos desafios com a alergia à proteína do leite.</p>
-                    {% if not user.is_authenticated %}
-                        <a href="{% url 'register' %}" class="btn">Cadastre-se Gratuitamente</a>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <section class="stats">
-        <div class="container">
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <h3>{{ receitas_count }}+</h3>
-                    <p>Receitas Seguras</p>
-                </div>
-                <div class="stat-card">
-                    <h3>{{ usuarios_count }}+</h3>
-                    <p>Mães Apoiadas</p>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <section class="features">
-        <div class="container">
-            <div class="section-title">
-                <h2>Últimas Receitas Adicionadas</h2>
-            </div>
-            
-            <div class="features-grid">
-                {% for receita in ultimas_receitas %}
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-utensils"></i>
-                    </div>
-                    <h3>{{ receita.titulo }}</h3>
-                    <p>{{ receita.modo_preparo|truncatechars:100 }}</p>
-                    <a href="{% url 'detalhe_receita' receita.id %}" class="btn-small">Ver Receita</a>
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-    </section>
 
-    {% if topicos_recentes %}
-    <section class="forum-section">
-        <div class="container">
-            <div class="section-title">
-                <h2>Tópicos Recentes na Comunidade</h2>
-                <a href="{% url 'forum' %}" class="btn-small">Ver todos</a>
-            </div>
-            
-            <div class="topicos-grid">
-                {% for topico in topicos_recentes %}
-                <div class="topico-card">
-                    <h3><a href="{% url 'detalhe_topico' topico.id %}">{{ topico.titulo }}</a></h3>
-                    <p>{{ topico.conteudo|truncatechars:150 }}</p>
-                    <div class="topico-meta">
-                        <span>Por {{ topico.autor.username }}</span>
-                        <span>{{ topico.data_criacao|date:"d/m/Y" }}</span>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-    </section>
-    {% endif %}
-    
-    {% if user.is_authenticated and user.alergia %}
-    <div class="alergia-alert">
-        <div class="container">
-            <div class="alert-info">
-                <i class="fas fa-info-circle"></i>
-                <strong>Alergia registrada:</strong> {{ user.alergia.nome }}
-            </div>
-        </div>
-    </div>
-    {% endif %}
+    <main>
+        {% block content %}
+        <!-- O conteúdo específico de cada página vai aqui -->
+        {% endblock %}
+    </main>
 
     <footer>
-        <div class="container">
-            <p>&copy; {% now "Y" %} Mães APLV - Todos os direitos reservados</p>
-        </div>
+        <p>Sistema desenvolvido por você</p>
     </footer>
-
-    <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{% static 'js/main.js' %}"></script>
 </body>
 </html>

@@ -1,0 +1,199 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Mães APLV - Apoio e Informação{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <i class="fas fa-baby"></i>
+                    Mães APLV
+                </div>
+                <ul class="nav-links">
+                    <li><a href="{% url 'pagina_inicial' %}">Início</a></li>
+                    <li><a href="#">Receitas</a></li>
+                    <li><a href="#">Comunidade</a></li>
+                    {% if user.is_authenticated %}
+                        <li><a href="{% url 'admin:index' %}" class="btn btn-outline">Admin</a></li>
+                    {% else %}
+                        <li><a href="{% url 'admin:index' %}" class="btn btn-outline">Login</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Juntas somos mais fortes contra a APLV</h1>
+                    <p>Encontre receitas seguras, compartilhe experiências e receba apoio de outras mães que enfrentam os mesmos desafios com a alergia à proteína do leite.</p>
+                    {% if not user.is_authenticated %}
+                        <a href="{% url 'admin:index' %}" class="btn">Cadastre-se Gratuitamente</a>
+                    {% endif %}
+                </div>
+                <div class="hero-image">
+                    <!-- Você pode adicionar uma imagem dinâmica aqui se quiser -->
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>Como podemos te ajudar?</h2>
+                <p>Tudo o que você precisa em um só lugar para enfrentar os desafios da APLV</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <h3>Receitas Seguras</h3>
+                    <p>Centenas de receitas testadas e aprovadas por outras mães, totalmente livres de leite e derivados.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Comunidade Acolhedora</h3>
+                    <p>Conecte-se com outras mães, compartilhe dúvidas e experiências em um ambiente seguro.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-book-medical"></i>
+                    </div>
+                    <h3>Informação Confiável</h3>
+                    <p>Artigos e guias elaborados por especialistas em nutrição e alergias alimentares.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="recipes">
+        <div class="container">
+            <div class="section-title">
+                <h2>Receitas Recentes</h2>
+                <p>Deliciosas opções sem leite para você e sua família</p>
+            </div>
+            
+            <div class="features-grid">
+                {% for receita in receitas %}
+                <div class="recipe-card">
+                    <div class="recipe-image" style="background-image: url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80');"></div>
+                    <div class="recipe-info">
+                        <h3>{{ receita.nome }}</h3>
+                        <div class="recipe-meta">
+                            <span><i class="fas fa-clock"></i> {{ receita.tempo_preparo }} min</span>
+                            <span><i class="fas fa-utensils"></i> {{ receita.porcoes }} porções</span>
+                        </div>
+                        <a href="#" class="btn">Ver Receita</a>
+                    </div>
+                </div>
+                {% empty %}
+                <p>Nenhuma receita cadastrada ainda.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    
+    <section class="community">
+        <div class="container">
+            <div class="section-title">
+                <h2>O que as mães estão dizendo</h2>
+                <p>Depoimentos reais de quem já usa nossa plataforma</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="testimonial">
+                    <div class="testimonial-content">
+                        "Encontrar receitas seguras para minha filha era um desafio diário. Com essa plataforma, finalmente tenho paz de espírito e variedade no cardápio!"
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar" style="background-image: url('https://randomuser.me/api/portraits/women/32.jpg');"></div>
+                        <div>
+                            <h4>Ana Carolina</h4>
+                            <p>Mãe da Sofia, 2 anos</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial">
+                    <div class="testimonial-content">
+                        "A comunidade me salvou nos momentos mais difíceis. Saber que não estou sozinha nessa jornada faz toda a diferença!"
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar" style="background-image: url('https://randomuser.me/api/portraits/women/44.jpg');"></div>
+                        <div>
+                            <h4>Juliana Mendes</h4>
+                            <p>Mãe do Pedro, 1 ano</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Mães APLV</h3>
+                    <p>A plataforma de apoio definitiva para mães de crianças com alergia à proteína do leite.</p>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Links Rápidos</h3>
+                    <ul class="footer-links">
+                        <li><a href="{% url 'pagina_inicial' %}">Início</a></li>
+                        <li><a href="#">Receitas</a></li>
+                        <li><a href="#">Comunidade</a></li>
+                        <li><a href="#">Artigos</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Informações</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Sobre Nós</a></li>
+                        <li><a href="#">Contato</a></li>
+                        <li><a href="#">Termos de Uso</a></li>
+                        <li><a href="#">Política de Privacidade</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Redes Sociais</h3>
+                    <div class="social-links">
+                        <a href="#" style="color: white; margin-right: 15px; font-size: 20px;"><i class="fab fa-facebook"></i></a>
+                        <a href="#" style="color: white; margin-right: 15px; font-size: 20px;"><i class="fab fa-instagram"></i></a>
+                        <a href="#" style="color: white; margin-right: 15px; font-size: 20px;"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                &copy; 2024 Mães APLV. Todos os direitos reservados.
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
+{% endblock %}

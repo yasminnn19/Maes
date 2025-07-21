@@ -14,10 +14,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'app',
+    'app',  # Seu app principal
+    'django_extensions',  # Opcional: para shell_plus e outras utilidades
 ]
 
-# o template usado
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -33,10 +33,8 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [
-            os.path.join(BASE_DIR, 'app/templates'),
-        ],
-        'APP_DIRS': True,
+        'DIRS': [],  # Deixe vazio já que está usando app/templates
+        'APP_DIRS': True,  # Isso permite que o Django encontre os templates dentro de app/templates
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
@@ -53,7 +51,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'biblioteca_n',
+        'NAME': 'maes',  # Alterei para um nome mais apropriado
         'USER': 'postgres',
         'PASSWORD': '123456',
         'HOST': 'localhost',
@@ -67,6 +65,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': {
+            'min_length': 8,
+        }
     },
     {
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
@@ -76,17 +77,31 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTH_USER_MODEL = 'maes.Usuario'
+# Configurações de autenticação
+AUTH_USER_MODEL = 'app.Usuario'  # Corrigido para apontar para seu app
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
 
+# Internacionalização
 LANGUAGE_CODE = 'pt-br'
 TIME_ZONE = 'America/Sao_Paulo'
 USE_I18N = True
+USE_L10N = True
 USE_TZ = True
 
-STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(STATIC_URL, "static")
+# Arquivos estáticos
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Para collectstatic
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "app/static/"),
+    os.path.join(BASE_DIR, 'app/static'),
 ]
 
+# Arquivos de mídia
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Configurações adicionais para o projeto
+SESSION_COOKIE_AGE = 1209600  # 2 semanas em segundos

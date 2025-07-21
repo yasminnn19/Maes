@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Página Inicial{% endblock %}
+
+{% block content %}
+<div class="stats">
+    <div class="stat-card">
+        <h2>👥 Usuários</h2>
+        <p>{{ total_usuarios }} registrados</p>
+    </div>
+    
+    <div class="stat-card">
+        <h2>🍲 Receitas</h2>
+        <p>{{ total_receitas }} cadastradas</p>
+    </div>
+    
+    <div class="stat-card">
+        <h2>🧂 Ingredientes</h2>
+        <p>{{ total_ingredientes }} disponíveis</p>
+    </div>
+</div>
+{% endblock %}
