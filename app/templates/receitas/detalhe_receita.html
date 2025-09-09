@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ receita.nome }} - Mães APLV{% endblock %}
+
+{% block content %}
+<section class="container">
+    <div class="receita-detalhe">
+        <h1>{{ receita.nome }}</h1>
+        
+        <div class="receita-info">
+            <div class="info-item">
+                <i class="fas fa-clock"></i>
+                <strong>Tempo:</strong> {{ receita.tempo_preparo }} minutos
+            </div>
+            <div class="info-item">
+                <i class="fas fa-utensils"></i>
+                <strong>Porções:</strong> {{ receita.porcoes }}
+            </div>
+            {% if receita.categoria %}
+            <div class="info-item">
+                <i class="fas fa-folder"></i>
+                <strong>Categoria:</strong> {{ receita.categoria.nome }}
+            </div>
+            {% endif %}
+        </div>
+        
+        <div class="receita-section">
+            <h2>📋 Ingredientes</h2>
+            <div class="ingredientes">
+                {{ receita.ingredientes|linebreaks }}
+            </div>
+        </div>
+        
+        <div class="receita-section">
+            <h2>👩‍🍳 Modo de Preparo</h2>
+            <div class="modo-preparo">
+                {{ receita.modo_preparo|linebreaks }}
+            </div>
+        </div>
+        
+        <div class="receita-meta">
+            <p><strong>👤 Autor:</strong> {{ receita.autor.username }}</p>
+            <p><strong>📅 Criada em:</strong> {{ receita.data_criacao|date:"d/m/Y H:i" }}</p>
+        </div>
+        
+        <div class="btn-group">
+            <a href="{% url 'lista_receitas' %}" class="btn">← Voltar para receitas</a>
+            <a href="{% url 'pagina_inicial' %}" class="btn btn-outline">← Voltar para início</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

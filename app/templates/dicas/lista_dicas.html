@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Dicas Nutricionais - Mães APLV{% endblock %}
+
+{% block content %}
+<section class="container">
+    <div class="section-title">
+        <h1>🍎 Dicas Nutricionais</h1>
+        <p>Dicas para uma alimentação saudável e balanceada</p>
+    </div>
+
+    <div class="features-grid">
+        {% for dica in dicas %}
+        <div class="feature-card">
+            <div class="feature-icon">
+                <i class="fas fa-apple-alt"></i>
+            </div>
+            <h3>{{ dica.titulo }}</h3>
+            <p>{{ dica.texto|truncatewords:30 }}</p>
+            <div class="dica-meta">
+                <small>Por {{ dica.autor.username }} em {{ dica.data_criacao|date:"d/m/Y" }}</small>
+            </div>
+            <a href="{% url 'detalhe_dica' dica.pk %}" class="btn">Ler dica completa</a>
+        </div>
+        {% empty %}
+        <div class="empty-message">
+            <h3>📝 Nenhuma dica nutricional disponível</h3>
+            <p>Ainda não há dicas cadastradas no sistema.</p>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

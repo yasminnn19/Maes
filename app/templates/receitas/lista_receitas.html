@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Receitas - Mães APLV{% endblock %}
+
+{% block content %}
+<section class="container">
+    <div class="section-title">
+        <h1>🍳 Nossas Receitas</h1>
+        <p>Descubra receitas deliciosas da nossa comunidade</p>
+    </div>
+
+    <div class="features-grid">
+        {% for receita in receitas %}
+        <div class="recipe-card">
+            <div class="recipe-image" style="background-image: url('https://via.placeholder.com/300x200/e8f5e7/2c5e2e?text=🍳');"></div>
+            <div class="recipe-info">
+                <h3>{{ receita.nome }}</h3>
+                <div class="recipe-meta">
+                    <span><i class="fas fa-clock"></i> {{ receita.tempo_preparo }} min</span>
+                    <span><i class="fas fa-utensils"></i> {{ receita.porcoes }} porções</span>
+                </div>
+                {% if receita.categoria %}
+                <div class="recipe-category">
+                    📂 {{ receita.categoria.nome }}
+                </div>
+                {% endif %}
+                <a href="{% url 'detalhe_receita' receita.pk %}" class="btn">Ver Receita</a>
+            </div>
+        </div>
+        {% empty %}
+        <div class="empty-message">
+            <h3>📝 Nenhuma receita cadastrada</h3>
+            <p>Ainda não há receitas no sistema.</p>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

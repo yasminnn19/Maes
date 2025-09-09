@@ -1,0 +1,229 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Fórum - Mães APLV{% endblock %}
+
+{% block content %}
+<section class="container">
+    <div class="section-title">
+        <h1>💬 Fórum da Comunidade</h1>
+        <p>Postagens e discussões da nossa comunidade</p>
+    </div>
+
+    <div class="forum-posts">
+        {% for postagem in postagens %}
+        <div class="post-card floating-card">
+            <div class="post-header">
+                <div class="author-avatar">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+                <div class="author-info">
+                    <strong>{{ postagem.autor.username }}</strong>
+                    <span class="post-date">📅 {{ postagem.data_publicacao|date:"d/m/Y H:i" }}</span>
+                </div>
+            </div>
+            
+            <div class="post-content">
+                {{ postagem.texto|linebreaks }}
+            </div>
+            
+            {% if postagem.imagem %}
+            <div class="post-image">
+                <img src="{{ postagem.imagem.url }}" alt="Imagem da postagem" class="post-img">
+            </div>
+            {% endif %}
+            
+            <div class="post-footer">
+                <div class="post-actions">
+                    <button class="action-btn">
+                        <i class="far fa-heart"></i> Curtir
+                    </button>
+                    <button class="action-btn">
+                        <i class="far fa-comment"></i> Comentar
+                    </button>
+                    <button class="action-btn">
+                        <i class="far fa-share-square"></i> Compartilhar
+                    </button>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="empty-message floating-card">
+            <div class="empty-icon">
+                <i class="fas fa-comments"></i>
+            </div>
+            <h3>📝 Nenhuma postagem no fórum</h3>
+            <p>Ainda não há postagens no fórum da comunidade.</p>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<style>
+.forum-posts {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.floating-card {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    border: 1px solid #e8f5e7;
+}
+
+.floating-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+}
+
+.post-card {
+    padding: 25px;
+    margin: 0;
+}
+
+.post-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #f0f8ff;
+}
+
+.author-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+}
+
+.author-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.author-info strong {
+    color: #2c5e2e;
+    font-size: 16px;
+}
+
+.post-date {
+    color: #888;
+    font-size: 13px;
+    margin-top: 2px;
+}
+
+.post-content {
+    color: #333;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    font-size: 15px;
+}
+
+.post-image {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.post-img {
+    max-width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.post-img:hover {
+    transform: scale(1.02);
+}
+
+.post-footer {
+    border-top: 2px solid #f0f8ff;
+    padding-top: 15px;
+    margin-top: 20px;
+}
+
+.post-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.action-btn {
+    background: transparent;
+    border: 2px solid #e8f5e7;
+    color: #2c5e2e;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.action-btn:hover {
+    background: #2c5e2e;
+    color: white;
+    border-color: #2c5e2e;
+    transform: translateY(-2px);
+}
+
+.empty-message {
+    text-align: center;
+    padding: 50px 30px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e8f5e7 100%);
+}
+
+.empty-icon {
+    font-size: 48px;
+    color: #2c5e2e;
+    margin-bottom: 20px;
+}
+
+.empty-message h3 {
+    color: #2c5e2e;
+    margin-bottom: 10px;
+}
+
+.empty-message p {
+    color: #666;
+    font-size: 16px;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .post-card {
+        padding: 20px;
+        margin: 10px;
+    }
+    
+    .post-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+    
+    .post-actions {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    
+    .action-btn {
+        flex: 1;
+        min-width: 120px;
+        justify-content: center;
+    }
+}
+</style>
+{% endblock %}

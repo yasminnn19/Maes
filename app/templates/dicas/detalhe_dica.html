@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ dica.titulo }} - Mães APLV{% endblock %}
+
+{% block content %}
+<section class="container">
+    <div class="dica-detalhe">
+        <h1>{{ dica.titulo }}</h1>
+        
+        <div class="dica-content">
+            {{ dica.texto|linebreaks }}
+        </div>
+        
+        <div class="dica-meta">
+            <p><strong>👤 Autor:</strong> {{ dica.autor.username }}</p>
+            <p><strong>📅 Data:</strong> {{ dica.data_criacao|date:"d/m/Y H:i" }}</p>
+        </div>
+        
+        <div class="btn-group">
+            <a href="{% url 'lista_dicas' %}" class="btn">← Voltar para dicas</a>
+            <a href="{% url 'pagina_inicial' %}" class="btn btn-outline">← Voltar para início</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

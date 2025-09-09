@@ -23,8 +23,9 @@
                 </div>
                 <ul class="nav-links">
                     <li><a href="{% url 'pagina_inicial' %}">Início</a></li>
-                    <li><a href="#">Receitas</a></li>
-                    <li><a href="#">Comunidade</a></li>
+                    <li><a href="{% url 'lista_receitas' %}"> Receitas</a></li>
+                    <li><a href="{% url  'lista_postagens' %}"> Fórum</a></li>
+                   <li><a href="{% url 'lista_dicas' %}"> Dicas Nutricionais</a></li>
                     {% if user.is_authenticated %}
                         <li><a href="{% url 'admin:index' %}" class="btn btn-outline">Admin</a></li>
                     {% else %}
@@ -89,7 +90,7 @@
             <div class="features-grid">
                 {% for receita in receitas %}
                 <div class="recipe-card">
-                    <div class="recipe-image" style="background-image: url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80');"></div>
+                    <div class="recipe-image" style="background-image: url('https://www.google.com/url?sa=i&url=https%3A%2F%2Fpt.pngtree.com%2Fso%2Fsem-lactose-%25C3%25ADcone&psig=AOvVaw1xDxJGPX1UfhdFe0f1Q9lb&ust=1753279490129000&source=images&cd=vfe&opi=89978449&ved=0CBUQjRxqFwoTCLDjvKTR0I4DFQAAAAAdAAAAABAx');"></div>
                     <div class="recipe-info">
                         <h3>{{ receita.nome }}</h3>
                         <div class="recipe-meta">
