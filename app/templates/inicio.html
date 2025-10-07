@@ -23,9 +23,9 @@
                 </div>
                 <ul class="nav-links">
                     <li><a href="{% url 'pagina_inicial' %}">Início</a></li>
-                    <li><a href="{% url 'lista_receitas' %}"> Receitas</a></li>
-                    <li><a href="{% url  'lista_postagens' %}"> Fórum</a></li>
-                   <li><a href="{% url 'lista_dicas' %}"> Dicas Nutricionais</a></li>
+                    <li><a href="{% url 'lista_receitas' %}">Receitas</a></li>
+                    <li><a href="{% url 'lista_postagens' %}">Fórum</a></li>
+                    <li><a href="{% url 'lista_dicas' %}">Dicas Nutricionais</a></li>
                     {% if user.is_authenticated %}
                         <li><a href="{% url 'admin:index' %}" class="btn btn-outline">Admin</a></li>
                     {% else %}
@@ -47,7 +47,7 @@
                     {% endif %}
                 </div>
                 <div class="hero-image">
-                    <!-- Você pode adicionar uma imagem dinâmica aqui se quiser -->
+                    <!-- Imagem hero opcional -->
                 </div>
             </div>
         </div>
@@ -76,7 +76,7 @@
                     <h3>Comunidade Acolhedora</h3>
                     <p>Conecte-se com outras mães, compartilhe dúvidas e experiências em um ambiente seguro.</p>
                 </div>
-                
+            </div>
         </div>
     </section>
     
@@ -87,25 +87,107 @@
                 <p>Deliciosas opções sem leite para você e sua família</p>
             </div>
             
-            <div class="features-grid">
+            <div class="recipes-carousel">
                 {% for receita in receitas %}
                 <div class="recipe-card">
-                    <div class="recipe-image" style="background-image: url('https://www.google.com/url?sa=i&url=https%3A%2F%2Fpt.pngtree.com%2Fso%2Fsem-lactose-%25C3%25ADcone&psig=AOvVaw1xDxJGPX1UfhdFe0f1Q9lb&ust=1753279490129000&source=images&cd=vfe&opi=89978449&ved=0CBUQjRxqFwoTCLDjvKTR0I4DFQAAAAAdAAAAABAx');"></div>
+                    {% if receita.imagem %}
+                        <div class="recipe-image">
+                            <img src="{{ receita.imagem.url }}" alt="{{ receita.nome }}" loading="lazy">
+                        </div>
+                    {% else %}
+                        <div class="recipe-image placeholder">
+                            <i class="fas fa-utensils"></i>
+                        </div>
+                    {% endif %}
                     <div class="recipe-info">
                         <h3>{{ receita.nome }}</h3>
                         <div class="recipe-meta">
                             <span><i class="fas fa-clock"></i> {{ receita.tempo_preparo }} min</span>
                             <span><i class="fas fa-utensils"></i> {{ receita.porcoes }} porções</span>
                         </div>
-                        <a href="#" class="btn">Ver Receita</a>
+                        <a href="{% url 'detalhe_receita' receita.id %}" class="btn">Ver Receita</a>
                     </div>
                 </div>
                 {% empty %}
-                <p>Nenhuma receita cadastrada ainda.</p>
+                <div class="no-recipes">
+                    <p>Nenhuma receita cadastrada ainda.</p>
+                </div>
                 {% endfor %}
             </div>
         </div>
     </section>
+
+    <!-- Se você quiser um carrossel real com slider, adicione este CSS e JavaScript -->
+    
+    <style>
+    .recipes-carousel {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        padding: 1rem 0;
+    }
+    
+    .recipe-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        transition: transform 0.3s ease;
+    }
+    
+    .recipe-card:hover {
+        transform: translateY(-5px);
+    }
+    
+    .recipe-image {
+        width: 100%;
+        height: 200px;
+        overflow: hidden;
+    }
+    
+    .recipe-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    .recipe-image.placeholder {
+        background: #f0f0f0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #ccc;
+        font-size: 3rem;
+    }
+    
+    .recipe-info {
+        padding: 1.5rem;
+    }
+    
+    .recipe-meta {
+        display: flex;
+        justify-content: space-between;
+        margin: 1rem 0;
+        font-size: 0.9rem;
+        color: #666;
+    }
+    
+    .no-recipes {
+        grid-column: 1 / -1;
+        text-align: center;
+        padding: 2rem;
+        color: #666;
+    }
+    </style>
+
+    <!-- JavaScript para carrossel (opcional) -->
+    <script>
+    // Se quiser fazer um carrossel que deslize
+    document.addEventListener('DOMContentLoaded', function() {
+        const carousel = document.querySelector('.recipes-carousel');
+        // Adicione funcionalidade de carrossel aqui se necessário
+    });
+    </script>
     
     <section class="community">
         <div class="container">
@@ -156,8 +238,8 @@
                     <h3>Links Rápidos</h3>
                     <ul class="footer-links">
                         <li><a href="{% url 'pagina_inicial' %}">Início</a></li>
-                        <li><a href="#">Receitas</a></li>
-                        <li><a href="#">Comunidade</a></li>
+                        <li><a href="{% url 'lista_receitas' %}">Receitas</a></li>
+                        <li><a href="{% url 'lista_postagens' %}">Comunidade</a></li>
                     </ul>
                 </div>
                 
